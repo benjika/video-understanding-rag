@@ -1,0 +1,48 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: fastapi_app
+    command: [ "python", "app/main.py" ]
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./video:/app/video
+      - ./.env:/app/.env
+    depends_on:
+      - db
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    restart: always
+
+  gradio:
+    build:
+      context: .
+    container_name: gradio_ui
+    command: [ "python", "app/front/front_main.py" ]
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./video:/app/video
+      - ./.env:/app/.env
+    depends_on:
+      - app
+    environment:
+      - API_URL=${API_URL}
+    restart: always
+
+  db:
+    image: ankane/pgvector
+    container_name: pgvector_db
+    environment:
+      POSTGRES_DB: ${PG_DB}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASS}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:

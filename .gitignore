@@ -1,0 +1,59 @@
+# Bytecode & Cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pkl
+
+# Virtual environments
+.env/
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+*.env
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Pipenv / Poetry / Pip
+Pipfile.lock
+poetry.lock
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Video files (uploaded)
+video/*
+!video/.gitkeep  # keep the folder
+
+# Gradio session artifacts
+gradio_cached_examples/
+gradio_tmp/
+
+# Notebooks
+*.ipynb_checkpoints
+
+# Test / coverage
+htmlcov/
+coverage.xml
+*.cover
+.pytest_cache/
+.tox/
+
+# VS Code Python config
+*.code-workspace
+
+# Requirements lockfile if temporary
+requirements-dev.txt
