@@ -62,7 +62,7 @@ PG_PASS=password
 PG_HOST=db
 PG_PORT=5432
 GOOGLE_API_KEY=your_gemini_api_key
-API_URL=http://app:8000
+API_URL=http://app:8000/
 ```
 
 ## 3. Build and run with Docker:
