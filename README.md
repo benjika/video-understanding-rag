@@ -16,7 +16,7 @@ This project lets you upload a video, analyze it using Google's Gemini LLM, extr
 
 ## 🗂️ Project Structure
 
-pp/  
+app/  
 ├── main.py # FastAPI entry  
 ├── api/  
 │ └── routes.py # API endpoints  
@@ -49,8 +49,8 @@ pp/
 ### 1. Clone the project
 
 ```bash
-git clone https://github.com/benjika/video-understanding-app.git
-cd video-understanding-app
+git clone https://github.com/benjika/video-understanding-rag.git
+cd video-understanding-rag
 ```
 
 ### 2. Add your .env file:
