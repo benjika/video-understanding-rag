@@ -13,7 +13,7 @@ def ask_question(query):
     """
     try:
 
-        response = requests.post(os.getenv("API_URL") + "chat_with_db/", json={"query": query})
+        response = requests.post(os.getenv("API_URL") + "chat_with_db/", json={"query": query}) # type: ignore
         logging.info(f"Response from API: {response}")
         if response.status_code == 200:
             return response.json()["result"]

@@ -10,24 +10,28 @@ VIDEO_DIR =  os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "vide
 
 class LLM_Video_Manager:
     def __init__(self):
-        self.client = genai.Client()
+        api_key = os.getenv("GOOGLE_API_KEY")
+        if not api_key:
+            raise ValueError("GOOGLE_API_KEY not found in environment")
 
-    def ask_llm_about_video(self, video_name: str = "John_Youngs_Lunar_Salute_on_Apollo_16.mp4") -> str:
+        self.client = genai.Client(api_key=api_key)
+
+    def ask_llm_about_video(self, video_path: str) -> str:
         """
         Ask the LLM a question about a video and return the response.
         Args:
             prompt (str): The question to ask the LLM about the video.
-            video_name (str): The name of the video file to analyze.
+            video_path (str): The path to the video file.
         Returns:
             str: The LLM's response to the question.
         """
-        video_path = os.path.join(VIDEO_DIR, video_name)
+
         if not os.path.exists(video_path):
-            raise FileNotFoundError(f"Video file {video_name} not found in {VIDEO_DIR}")
+            raise FileNotFoundError(f"Video file {video_path} not found in {VIDEO_DIR}")
         myfile = self.client.files.upload(file=video_path)
         
         for i in range(10):
-            current_file_state = self.client.files.get(name = myfile.name) # type: ignore
+            current_file_state = self.client.files.get(name=myfile.name)  # type: ignore
             if current_file_state.state == "PROCESSING":
                 time.sleep(5)
             else:
@@ -48,16 +52,18 @@ class LLM_Video_Manager:
         )
         
         text = response.text
-
         
         if not text:
             raise ValueError("No response from LLM.")
+        
+        json_start, json_end = text.find("{"), text.rfind("}") + 1 # type: ignore
+        
+        if json_start == -1 or json_end == -1:
+            raise ValueError("Could not find JSON object in the log string.")
+        
+        raw_json = text[json_start : json_end + 1] # type: ignore
 
-        text = text.replace("```","").replace("json","")
-        try:
-            response_json = json.loads(text)
-        except json.JSONDecodeError:
-            raise ValueError("Response is not valid JSON.")
+        response_json = json.loads(raw_json)        
 
         return response_json
 

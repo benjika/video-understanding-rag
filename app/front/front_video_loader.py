@@ -31,20 +31,22 @@ def analyze_uploaded_video(video_file):
 
     try:
         with open(file_path, "rb") as f:
-            response = requests.post(os.getenv("API_URL") + "analyze_video/", files={"video": (filename, f)})
+            response = requests.post(os.getenv("API_URL") + "analyze_video/", files={"video": (filename, f)}) # type: ignore
             if response.status_code != 200:
                 return f"Error: {response.status_code} - {response.text}"
             else:
                 response_json = response.json()
                 if "result" in response_json:
                     result = response_json["result"]
-                    # Format the result for display
                     formatted_result = json.dumps(result, indent=4)
                     return formatted_result
                 else:
                     return f"Error: Unexpected response format: {response_json}"
     except Exception as e:
         return f"Error: {e}"
+    finally:
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
 demo = gr.Interface(
     fn=analyze_uploaded_video,
