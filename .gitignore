@@ -29,6 +29,7 @@ Thumbs.db
 # Pipenv / Poetry / Pip
 Pipfile.lock
 poetry.lock
+Pipfile
 
 # Docker
 *.log
