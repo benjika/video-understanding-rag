@@ -4,6 +4,8 @@ import requests
 import gradio as gr
 import json
 
+import logging
+logging.basicConfig(level=logging.INFO)
 
 VIDEO_DIR = os.path.join(os.path.dirname(__file__),"..", "video")
 os.makedirs(VIDEO_DIR, exist_ok=True)
@@ -32,7 +34,9 @@ def analyze_uploaded_video(video_file):
     try:
         with open(file_path, "rb") as f:
             response = requests.post(os.getenv("API_URL") + "analyze_video/", files={"video": (filename, f)}) # type: ignore
+            logging.info(f"Response from API: {response}")
             if response.status_code != 200:
+                logging.error(f"Error: {response.status_code} - {response.text}")
                 return f"Error: {response.status_code} - {response.text}"
             else:
                 response_json = response.json()
@@ -66,6 +70,3 @@ def get_upload_tab():
             analyze_btn = gr.Button("Analyze")
         video_output = gr.Textbox(label="LLM Video Analysis", lines=15)
         analyze_btn.click(fn=analyze_uploaded_video, inputs=video_input, outputs=video_output)
-
-if __name__ == "__main__":
-    demo.launch()

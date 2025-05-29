@@ -1,24 +1,24 @@
 FROM python:3.10-slim-bullseye
 
-# Upgrade system packages to address vulnerabilities
-RUN apt-get update && apt-get upgrade -y
-
-RUN sed -i 's|http://deb.debian.org|http://ftp.de.debian.org|g' /etc/apt/sources.list
+# Upgrade system packages and install ffmpeg in one layer
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY requirements.txt .
 
-RUN apt-get update
-RUN apt-get install -y ffmpeg
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+# Install Python dependencies
+RUN python -m pip install --upgrade pip && \
+    python -m pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Ensure /app/video exists
+# Ensure /app/video exists (but you also mount it as a volume)
 RUN mkdir -p /app/video
 
 ENV PYTHONUNBUFFERED=1
 
-CMD ["python", "app/main.py"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

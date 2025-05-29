@@ -3,7 +3,7 @@ services:
     build:
       context: .
     container_name: fastapi_app
-    command: [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload" ]
+    command: [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000" ]
     ports:
       - "8000:8000"
     volumes:
@@ -12,42 +12,28 @@ services:
       - db
     environment:
       GOOGLE_API_KEY: ${GOOGLE_API_KEY}
-      PG_DB: ${PG_DB}
-      PG_USER: ${PG_USER}
-      PG_PASS: ${PG_PASS}
-      PG_HOST: ${PG_HOST}
-      PG_PORT: ${PG_PORT}
-    restart: always
-
-  gradio:
-    build:
-      context: .
-    container_name: gradio_ui
-    command: [ "python", "app/front/front_main.py" ]
-    ports:
-      - "7860:7860"
-    volumes:
-      - ./video:/app/video
-    depends_on:
-      - app
-    environment:
-      - API_URL=${API_URL}
-    restart: always
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      API_URL: ${API_URL}
+    restart: unless-stopped
 
   db:
     image: ankane/pgvector
     container_name: pgvector_db
     environment:
-      PG_DB: ${PG_DB}
-      PG_USER: ${PG_USER}
-      PG_PASS: ${PG_PASS}
-      PG_HOST: ${PG_HOST}
-      PG_PORT: ${PG_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    restart: always
+    restart: unless-stopped
 
 volumes:
   pgdata:

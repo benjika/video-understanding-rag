@@ -56,12 +56,12 @@ cd video-understanding-rag
 ### 2. Add your .env file:
 
 ```bash
-PG_DB=video_understanding_db
-PG_USER=postgres
-PG_PASS=password
-PG_HOST=db
-PG_PORT=5432
-GOOGLE_API_KEY=your_gemini_api_key
+GOOGLE_API_KEY=your_google_api_key
+POSTGRES_DB=video_understanding_db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=yourpassword
+POSTGRES__HOST=db
+POSTGRES__PORT=5432
 API_URL=http://app:8000/
 ```
 
@@ -71,8 +71,12 @@ docker-compose up --build
 ```
 
 Access  
-🧠 FastAPI API: http://localhost:8000/docs  
-💬 Gradio UI: http://localhost:7860  
+- The app will be available at [http://localhost:8000/](http://localhost:8000/)
+- The Gradio UI is served at the root path.
+> **Note:**  
+> On the very first startup, it may take a few minutes for Gradio and the backend to build and initialize. Please be patient while the containers are being prepared.
+
+---
 
 Example Workflow  
 1. Upload an .mp4 video via Gradio  
@@ -82,6 +86,15 @@ Example Workflow
     - "What happened in the beginning?"  
     - "Was there any speech?"  
 5. Gradio shows an LLM-generated answer based on similar highlights  
+
+---
+
+## Notes
+
+- Make sure your `GOOGLE_API_KEY` is valid for Gemini LLM.
+- The database is persisted in the `pgdata` Docker volume.
+
+---
 
 📜 License  
 MIT © 2024 Benny Katz

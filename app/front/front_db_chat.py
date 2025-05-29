@@ -3,6 +3,7 @@ import gradio as gr
 import requests
 
 import logging
+logging.basicConfig(level=logging.INFO)
 
 def ask_question(query):
     """Ask a question about the video and get an answer from the LLM.
@@ -40,6 +41,3 @@ def get_chat_tab():
         chat_output = gr.Textbox(label="LLM Answer")
         ask_btn = gr.Button("Ask")
         ask_btn.click(fn=ask_question, inputs=question_input, outputs=chat_output)
-
-if __name__ == "__main__":
-    demo.launch()

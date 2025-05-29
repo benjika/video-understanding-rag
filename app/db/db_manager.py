@@ -10,11 +10,11 @@ load_dotenv()
 class DBManager:
     def __init__(self):
             self.conn = psycopg2.connect(
-                dbname=os.getenv("PG_DB"),
-                user=os.getenv("PG_USER"),
-                password=os.getenv("PG_PASS"),
-                host=os.getenv("PG_HOST"),
-                port=os.getenv("PG_PORT", "5432")
+                dbname=os.getenv("POSTGRES_DB"),
+                user=os.getenv("POSTGRES_USER"),
+                password=os.getenv("POSTGRES_PASSWORD"),
+                host=os.getenv("POSTGRES_HOST"),
+                port=os.getenv("POSTGRES_PORT", "5432")
             )
             self.cursor = self.conn.cursor()
             self.ensure_table_exists()
