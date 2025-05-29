@@ -72,7 +72,6 @@ docker-compose up --build
 
 Access  
 - The app will be available at [http://localhost:8000/gradio/](http://localhost:8000/gradio/)
-- The Gradio UI is served at the root path.
 > **Note:**  
 > On the very first startup, it may take a few minutes for Gradio and the backend to build and initialize. Please be patient while the containers are being prepared.
 
