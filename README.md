@@ -97,4 +97,4 @@ Example Workflow
 ---
 
 📜 License  
-MIT © 2024 Benny Katz
+MIT © 2025 Benny Katz
