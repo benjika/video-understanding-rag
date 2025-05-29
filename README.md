@@ -60,8 +60,8 @@ GOOGLE_API_KEY=your_google_api_key
 POSTGRES_DB=video_understanding_db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=yourpassword
-POSTGRES__HOST=db
-POSTGRES__PORT=5432
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
 API_URL=http://app:8000/
 ```
 
